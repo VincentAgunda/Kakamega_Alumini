@@ -19,28 +19,28 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
-      <div className="container mx-auto px-6 py-3 md:py-4">
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700"> {/* Reduced shadow for a cleaner look */}
+      <div className="container mx-auto px-6 py-3 md:py-4"> {/* Adjusted padding for a slightly more compact feel, increased px for better spacing on edges */}
         <div className="flex justify-between items-center">
           {/* Left Section: Logo + Nav */}
-          <div className="flex items-center space-x-8">
-            <Link to="/" className="flex items-center">
-              <img src="/logo.svg" alt="Logo" className="h-6 md:h-7" />
+          <div className="flex items-center space-x-8"> {/* Main spacing between logo and nav */}
+            <Link to="/" className="flex items-center"> {/* Removed space-x-2 as logo and text are often close or just the logo */}
+              <img src="/logo.svg" alt="Logo" className="h-6 md:h-7" /> {/* Adjusted logo size for a more modern, compact look */}
               {/* Optional: If your logo is strong enough, you might remove the text here for ultimate minimalism */}
               {/* <span className="text-xl font-bold text-gray-800 dark:text-white ml-2 hidden md:inline">Kakamega Alumni</span> */}
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex justify-center flex-grow">
-              <ul className="flex space-x-8">
+            <nav className="hidden md:flex justify-center flex-grow"> {/* Added justify-center and flex-grow to push nav items towards center */}
+              <ul className="flex space-x-8"> {/* Increased spacing between nav items */}
                 {navLinks.map((link) => (
                   <li key={link.path}>
                     <NavLink
                       to={link.path}
                       className={({ isActive }) =>
-                        `text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 text-sm font-medium ${
+                        `text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 text-sm font-medium ${ // Smaller font, subtle transition
                           isActive
-                            ? 'text-secondary dark:text-secondary-dark font-semibold'
+                            ? 'text-secondary dark:text-secondary-dark font-semibold' // Slightly more emphasis on active
                             : ''
                         }`
                       }
@@ -73,10 +73,10 @@ export default function Header() {
           </div>
 
           {/* Right Section: Theme Toggle + Profile + Mobile Toggle */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4"> {/* Spacing between right-aligned elements */}
             <ThemeToggle />
-            <Menu as="div" className="relative z-10">
-              <Menu.Button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            <Menu as="div" className="relative z-10"> {/* Ensure Menu dropdown is above other content */}
+              <Menu.Button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"> {/* Added focus styles */}
                 <FaUserCircle className="text-2xl" />
                 <ChevronDownIcon className="ml-1 w-4 h-4" />
               </Menu.Button>
@@ -134,7 +134,7 @@ export default function Header() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              className="md:hidden p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" // Added focus styles
             >
               {mobileMenuOpen ? (
                 <XMarkIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
@@ -145,61 +145,59 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu - Added animation classes */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            mobileMenuOpen ? 'max-h-screen opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0' // Changed mt-4 to mt-0 when closed
-          }`}
-        >
-          <nav className="flex flex-col space-y-3">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition"
-              >
-                {link.name}
-              </NavLink>
-            ))}
-            {currentUser && (
-              <>
-                <NavLink to="/announcements" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Announcements</NavLink>
-                <NavLink to="/directory" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Directory</NavLink>
-                <NavLink to="/business" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Business</NavLink>
-              </>
-            )}
-          </nav>
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4"> {/* Added mt-4 here to ensure spacing from nav links */}
-            <div className="flex flex-col space-y-3">
-              {currentUser ? (
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 space-y-4">
+            <nav className="flex flex-col space-y-3">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition"
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+              {currentUser && (
                 <>
-                  <Link
-                    to={userData?.role === 'admin' ? '/admin/dashboard' : '/dashboard'}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2 px-4 hover:bg-primary-darker dark:hover:bg-primary transition-colors duration-200"
-                  >
-                    Dashboard
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded py-2 px-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2 px-4 hover:bg-primary-darker dark:hover:bg-primary transition-colors duration-200">Login</Link>
-                  <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded py-2 px-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">Register</Link>
+                  <NavLink to="/announcements" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Announcements</NavLink>
+                  <NavLink to="/directory" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Directory</NavLink>
+                  <NavLink to="/business" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Business</NavLink>
                 </>
               )}
+            </nav>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+              <div className="flex flex-col space-y-3">
+                {currentUser ? (
+                  <>
+                    <Link
+                      to={userData?.role === 'admin' ? '/admin/dashboard' : '/dashboard'}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2 px-4 hover:bg-primary-darker dark:hover:bg-primary transition-colors duration-200" // Added hover
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded py-2 px-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200" // Added text color and hover
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2 px-4 hover:bg-primary-darker dark:hover:bg-primary transition-colors duration-200">Login</Link>
+                    <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded py-2 px-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">Register</Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

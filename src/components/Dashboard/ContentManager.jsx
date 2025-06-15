@@ -1,7 +1,8 @@
+// src/pages/admin/ContentManager.jsx
 import { useState, useEffect } from 'react';
 import { db } from '../../config/firebase';
 import { collection, getDocs, doc, deleteDoc, addDoc, serverTimestamp } from 'firebase/firestore';
-import { PencilIcon, TrashIcon, CalendarIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon, CalendarIcon, MapPinIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../../contexts/AuthContext';
 
 // Collection mapping for cleaner code
@@ -159,28 +160,30 @@ export default function ContentManager() {
   };
 
   const renderForm = () => (
-    <form onSubmit={handleCreate} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-6">
-      <h3 className="text-lg font-medium mb-4">Add New {selectedType === 'Hall of Fame' ? 'Honoree' : selectedType.slice(0, -1)}</h3>
+    <form onSubmit={handleCreate} className="bg-[#e8ecef] p-5 rounded-2xl mb-6">
+      <h3 className="text-lg font-bold text-[#333] mb-4">
+        Add New {selectedType === 'Hall of Fame' ? 'Honoree' : selectedType.slice(0, -1)}
+      </h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {selectedType === 'Hall of Fame' ? (
           <>
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 Honoree Name
               </label>
               <input
                 type="text"
                 value={newContent.honoreeName}
                 onChange={(e) => setNewContent({...newContent, honoreeName: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 required
                 placeholder="Full name of honoree"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 Graduation Year
               </label>
               <input
@@ -189,20 +192,20 @@ export default function ContentManager() {
                 max="2099"
                 value={newContent.honoreeYear}
                 onChange={(e) => setNewContent({...newContent, honoreeYear: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 required
                 placeholder="Year of graduation"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 Category
               </label>
               <select
                 value={newContent.honoreeCategory}
                 onChange={(e) => setNewContent({...newContent, honoreeCategory: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 required
               >
                 <option value="distinguished">Distinguished Alumni</option>
@@ -212,28 +215,28 @@ export default function ContentManager() {
             </div>
             
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 Achievement/Contribution
               </label>
               <textarea
                 value={newContent.content}
                 onChange={(e) => setNewContent({...newContent, content: e.target.value})}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 required
                 placeholder="Describe the honoree's achievement or contribution"
               />
             </div>
             
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 Photo URL (optional)
               </label>
               <input
                 type="url"
                 value={newContent.honoreePhotoURL}
                 onChange={(e) => setNewContent({...newContent, honoreePhotoURL: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 placeholder="https://example.com/photo.jpg"
               />
             </div>
@@ -241,27 +244,27 @@ export default function ContentManager() {
         ) : (
           <>
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 Title
               </label>
               <input
                 type="text"
                 value={newContent.title}
                 onChange={(e) => setNewContent({...newContent, title: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 required
               />
             </div>
             
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block text-sm font-medium text-gray-600">
                 {selectedType === 'Events' ? 'Description' : 'Content'}
               </label>
               <textarea
                 value={newContent.content}
                 onChange={(e) => setNewContent({...newContent, content: e.target.value})}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                 required
               />
             </div>
@@ -269,13 +272,13 @@ export default function ContentManager() {
             {selectedType === 'Announcements' && (
               <>
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Category
                   </label>
                   <select
                     value={newContent.category}
                     onChange={(e) => setNewContent({...newContent, category: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     required
                   >
                     <option value="">Select category</option>
@@ -285,14 +288,14 @@ export default function ContentManager() {
                   </select>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Link (optional)
                   </label>
                   <input
                     type="url"
                     value={newContent.link}
                     onChange={(e) => setNewContent({...newContent, link: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     placeholder="https://example.com"
                   />
                 </div>
@@ -302,26 +305,26 @@ export default function ContentManager() {
             {selectedType === 'Blog Posts' && (
               <>
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Excerpt
                   </label>
                   <textarea
                     value={newContent.excerpt}
                     onChange={(e) => setNewContent({...newContent, excerpt: e.target.value})}
                     rows={2}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Category
                   </label>
                   <input
                     type="text"
                     value={newContent.category}
                     onChange={(e) => setNewContent({...newContent, category: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     required
                   />
                 </div>
@@ -330,63 +333,63 @@ export default function ContentManager() {
             
             {selectedType === 'Events' && (
               <>
-                <div className="col-span-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                <div className="col-span-2 flex items-center text-sm text-gray-600">
                   <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5" />
                   <span>Event Date & Time</span>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Date
                   </label>
                   <input
                     type="date"
                     value={newContent.date}
                     onChange={(e) => setNewContent({...newContent, date: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Time
                   </label>
                   <input
                     type="time"
                     value={newContent.time}
                     onChange={(e) => setNewContent({...newContent, time: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     required
                   />
                 </div>
                 
-                <div className="col-span-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                <div className="col-span-2 flex items-center text-sm text-gray-600">
                   <MapPinIcon className="flex-shrink-0 mr-1.5 h-5 w-5" />
                   <span>Location Details</span>
                 </div>
                 
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Location
                   </label>
                   <input
                     type="text"
                     value={newContent.location}
                     onChange={(e) => setNewContent({...newContent, location: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     required
                     placeholder="Virtual or physical address"
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-gray-600">
                     Location Link (optional)
                   </label>
                   <input
                     type="url"
                     value={newContent.locationLink}
                     onChange={(e) => setNewContent({...newContent, locationLink: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-600 dark:border-gray-600 focus:border-primary focus:ring-primary"
+                    className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm bg-white focus:border-[#ffc947] focus:ring-[#ffc947] p-2"
                     placeholder="https://maps.example.com"
                   />
                 </div>
@@ -400,13 +403,13 @@ export default function ContentManager() {
         <button
           type="button"
           onClick={() => setIsAdding(false)}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 transition"
+          className="px-4 py-2 bg-[#e8ecef] hover:bg-[#d6dde3] text-[#333] rounded-xl transition"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
+          className="px-4 py-2 bg-[#ffc947] hover:bg-[#ffc130] text-[#333] font-bold rounded-xl transition"
         >
           Create
         </button>
@@ -415,13 +418,18 @@ export default function ContentManager() {
   );
 
   if (loading) {
-    return <div className="text-center py-8">Loading content...</div>;
+    return (
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#ffc947] mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading content...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">Content Manager</h2>
-      
+    <div className="bg-white rounded-2xl shadow-md p-5">
       <div className="flex flex-wrap gap-3 mb-6">
         {contentTypes.map(type => (
           <button
@@ -430,10 +438,10 @@ export default function ContentManager() {
               setSelectedType(type);
               setIsAdding(false);
             }}
-            className={`px-4 py-2 rounded-md transition ${
+            className={`px-4 py-2 rounded-xl transition ${
               selectedType === type 
-                ? 'bg-primary text-white shadow-md' 
-                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                ? 'bg-[#ffc947] text-[#333] font-bold shadow-sm' 
+                : 'bg-[#e8ecef] hover:bg-[#d6dde3] text-[#333]'
             }`}
           >
             {type}
@@ -444,45 +452,46 @@ export default function ContentManager() {
       {isAdding ? (
         renderForm()
       ) : (
-        <div className="mt-4">
+        <div className="mb-6">
           <button 
             onClick={() => setIsAdding(true)}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition flex items-center"
+            className="px-4 py-2 bg-[#ffc947] hover:bg-[#ffc130] text-[#333] font-bold rounded-xl flex items-center"
           >
-            <span>+ Add New {selectedType === 'Hall of Fame' ? 'Honoree' : selectedType.slice(0, -1)}</span>
+            <PlusIcon className="w-4 h-4 mr-1" />
+            <span>Add New {selectedType === 'Hall of Fame' ? 'Honoree' : selectedType.slice(0, -1)}</span>
           </button>
         </div>
       )}
 
-      <div className="overflow-x-auto mt-6 rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-800">
+      <div className="overflow-x-auto rounded-xl">
+        <table className="min-w-full divide-y divide-[#e8ecef]">
+          <thead className="bg-[#e8ecef]">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 {selectedType === 'Hall of Fame' ? 'Name' : 'Title'}
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 {selectedType === 'Hall of Fame' ? 'Year' : 'Date'}
               </th>
               {selectedType === 'Announcements' && (
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Category
                 </th>
               )}
               {selectedType === 'Hall of Fame' && (
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Category
                 </th>
               )}
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Author/Added By
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="bg-white divide-y divide-[#e8ecef]">
             {content.length > 0 ? (
               content.map((item) => {
                 // Format date based on content type
@@ -498,32 +507,32 @@ export default function ContentManager() {
                 }
                 
                 return (
-                  <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                  <tr key={item.id} className="hover:bg-[#f8f9fa] transition">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                      <div className="text-sm font-medium text-[#333]">
                         {selectedType === 'Hall of Fame' ? item.name : item.title}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                       {displayDate}
                     </td>
                     {selectedType === 'Announcements' && (
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 capitalize">
                         {item.type || 'General'}
                       </td>
                     )}
                     {selectedType === 'Hall of Fame' && (
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 capitalize">
                         {item.category}
                       </td>
                     )}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                       {item.authorName || item.addedBy || 'Admin'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button 
                         onClick={() => handleDelete(item.id)}
-                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20"
+                        className="text-red-600 hover:text-red-800 p-1 rounded-full hover:bg-red-50"
                         title="Delete"
                       >
                         <TrashIcon className="h-5 w-5" />
@@ -539,7 +548,7 @@ export default function ContentManager() {
                     selectedType === 'Announcements' ? 5 : 
                     selectedType === 'Hall of Fame' ? 5 : 4
                   } 
-                  className="px-6 py-8 text-center text-gray-500 dark:text-gray-400"
+                  className="px-6 py-8 text-center text-gray-600"
                 >
                   <div className="flex flex-col items-center justify-center">
                     <div className="text-lg mb-2">No {selectedType.toLowerCase()} found</div>

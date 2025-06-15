@@ -80,17 +80,8 @@ export default function Register() {
       // Store email in case of failure
       localStorage.setItem('registerEmail', formData.email);
       
-      // Prepare user data without confirmPassword
-      const { confirmPassword, ...userData } = formData;
-      
       // Register user with metadata
-      await register(formData.email, formData.password, {
-        ...userData,
-        role: 'user',
-        isApproved: false,
-        createdAt: new Date().toISOString(),
-        lastUpdated: new Date().toISOString()
-      });
+      await register(formData.email, formData.password, formData);
       
       // Redirect with success message
       navigate('/login', { 
@@ -126,6 +117,8 @@ export default function Register() {
         errorMessage = 'Please enter a valid email address.';
       } else if (err.message.includes('network-error')) {
         errorMessage = 'Network error. Please check your connection.';
+      } else if (err.message.includes('system configuration')) {
+        errorMessage = 'Registration is currently unavailable. Please contact support.';
       }
       
       setError(errorMessage);

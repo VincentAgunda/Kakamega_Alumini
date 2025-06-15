@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
             setCurrentUser({ 
               ...user, 
               ...data,
-              isAdmin: data.role === 'admin'  // Add isAdmin property
+              isAdmin: data.role === 'admin'
             });
           } else {
             const data = userDoc.data();
@@ -75,7 +75,7 @@ export function AuthProvider({ children }) {
             setCurrentUser({ 
               ...user, 
               ...data,
-              isAdmin: data.role === 'admin'  // Add isAdmin property
+              isAdmin: data.role === 'admin'
             });
           }
         } else {
@@ -117,7 +117,7 @@ export function AuthProvider({ children }) {
       setCurrentUser({ 
         ...userCredential.user, 
         ...userData,
-        isAdmin: userData.role === 'admin'  // Add isAdmin property
+        isAdmin: userData.role === 'admin'
       });
       
       return {
@@ -151,14 +151,19 @@ export function AuthProvider({ children }) {
     let userCredential;
     
     try {
+      // Check if email exists first
       const methods = await fetchSignInMethodsForEmail(auth, email);
       if (methods.length > 0) {
         throw { code: 'auth/email-already-in-use' };
       }
 
+      // Create auth user
       userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Prepare user data without confirmPassword
       const { confirmPassword, ...cleanData } = userData;
       
+      // Create user document
       await setDoc(doc(db, 'users', userCredential.user.uid), {
         ...cleanData,
         email,
@@ -172,7 +177,7 @@ export function AuthProvider({ children }) {
     } catch (error) {
       console.error('Registration error:', error);
       
-      // Clean up partially created user
+      // Clean up partially created user if Firestore failed
       if (userCredential?.user) {
         try {
           await deleteUser(userCredential.user);
@@ -189,6 +194,8 @@ export function AuthProvider({ children }) {
         errorMessage = 'Password must be at least 6 characters';
       } else if (error.code === 'auth/invalid-email') {
         errorMessage = 'Invalid email address';
+      } else if (error.code === 'permission-denied') {
+        errorMessage = 'Registration failed due to system configuration. Please contact support.';
       }
       
       throw new Error(errorMessage);

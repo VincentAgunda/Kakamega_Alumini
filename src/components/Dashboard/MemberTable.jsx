@@ -1,7 +1,8 @@
+// src/pages/admin/MemberTable.jsx
 import { useState, useEffect } from 'react';
 import { db } from "../../config/firebase";
 import { collection, query, where, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { PencilIcon, TrashIcon, CheckIcon, XMarkIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon, CheckIcon, XMarkIcon, PhoneIcon, UserIcon } from '@heroicons/react/24/outline';
 
 export default function MemberTable() {
   const [members, setMembers] = useState([]);
@@ -146,25 +147,25 @@ export default function MemberTable() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ffc947]"></div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="bg-white rounded-2xl shadow-md p-5">
       {successMessage && (
-        <div className="mb-4 p-4 bg-green-100 text-green-800 rounded-md dark:bg-green-900/30 dark:text-green-200">
+        <div className="mb-4 p-4 bg-green-100 text-green-800 rounded-xl">
           {successMessage}
         </div>
       )}
 
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <div className="w-full sm:w-64">
+        <div className="w-full">
           <input
             type="text"
             placeholder="Search by name, email, or phone..."
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-[#ffc947] focus:border-[#ffc947]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -172,57 +173,57 @@ export default function MemberTable() {
         <div className="flex space-x-2">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-md ${filter === 'all' ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+            className={`px-4 py-2 rounded-xl ${filter === 'all' ? 'bg-[#ffc947] text-[#333] font-bold' : 'bg-[#e8ecef] hover:bg-[#d6dde3] text-[#333]'}`}
           >
             All
           </button>
           <button
             onClick={() => setFilter('pending')}
-            className={`px-4 py-2 rounded-md ${filter === 'pending' ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+            className={`px-4 py-2 rounded-xl ${filter === 'pending' ? 'bg-[#ffc947] text-[#333] font-bold' : 'bg-[#e8ecef] hover:bg-[#d6dde3] text-[#333]'}`}
           >
             Pending
           </button>
           <button
             onClick={() => setFilter('approved')}
-            className={`px-4 py-2 rounded-md ${filter === 'approved' ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700'}`}
+            className={`px-4 py-2 rounded-xl ${filter === 'approved' ? 'bg-[#ffc947] text-[#333] font-bold' : 'bg-[#e8ecef] hover:bg-[#d6dde3] text-[#333]'}`}
           >
             Approved
           </button>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+      <div className="overflow-x-auto rounded-xl">
+        <table className="min-w-full divide-y divide-[#e8ecef]">
+          <thead className="bg-[#e8ecef]">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Email
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Phone
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Year
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Status
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="bg-white divide-y divide-[#e8ecef]">
             {filteredMembers.length > 0 ? (
               filteredMembers.map((member) => (
-                <tr key={member.id}>
+                <tr key={member.id} className="hover:bg-[#f8f9fa] transition">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
-                        {member.firstName?.charAt(0)}{member.lastName?.charAt(0)}
+                      <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#e8ecef] flex items-center justify-center">
+                        <UserIcon className="h-5 w-5 text-gray-600" />
                       </div>
                       <div className="ml-4">
                         {editingMember === member.id ? (
@@ -230,11 +231,11 @@ export default function MemberTable() {
                             name="firstName"
                             value={editForm.firstName}
                             onChange={handleEditChange}
-                            className="w-full px-2 py-1 border border-gray-300 rounded-md mb-1 dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 border border-gray-300 rounded-md mb-1"
                             placeholder="First Name"
                           />
                         ) : (
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          <div className="text-sm font-medium text-[#333]">
                             {member.firstName} {member.lastName}
                           </div>
                         )}
@@ -243,37 +244,37 @@ export default function MemberTable() {
                             name="profession"
                             value={editForm.profession}
                             onChange={handleEditChange}
-                            className="w-full px-2 py-1 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 border border-gray-300 rounded-md"
                             placeholder="Profession"
                           />
                         ) : (
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                          <div className="text-sm text-gray-600">
                             {member.profession}
                           </div>
                         )}
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {editingMember === member.id ? (
                       <input
                         name="email"
                         value={editForm.email}
                         onChange={handleEditChange}
-                        className="w-full px-2 py-1 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
+                        className="w-full px-2 py-1 border border-gray-300 rounded-md"
                         placeholder="Email"
                       />
                     ) : (
                       member.email
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {editingMember === member.id ? (
                       <input
                         name="phone"
                         value={editForm.phone}
                         onChange={handleEditChange}
-                        className="w-full px-2 py-1 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
+                        className="w-full px-2 py-1 border border-gray-300 rounded-md"
                         placeholder="Phone"
                       />
                     ) : (
@@ -283,13 +284,13 @@ export default function MemberTable() {
                       </div>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {editingMember === member.id ? (
                       <input
                         name="yearOfExit"
                         value={editForm.yearOfExit}
                         onChange={handleEditChange}
-                        className="w-full px-2 py-1 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
+                        className="w-full px-2 py-1 border border-gray-300 rounded-md"
                         placeholder="Year of Exit"
                       />
                     ) : (
@@ -302,13 +303,13 @@ export default function MemberTable() {
                         name="isApproved"
                         value={editForm.isApproved}
                         onChange={handleEditChange}
-                        className="w-full px-2 py-1 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
+                        className="w-full px-2 py-1 border border-gray-300 rounded-md"
                       >
                         <option value={false}>Pending</option>
                         <option value={true}>Approved</option>
                       </select>
                     ) : (
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${member.isApproved ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'}`}>
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${member.isApproved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                         {member.isApproved ? 'Approved' : 'Pending'}
                       </span>
                     )}
@@ -318,14 +319,14 @@ export default function MemberTable() {
                       <>
                         <button
                           onClick={() => handleSaveEdit(member.id)}
-                          className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
+                          className="text-green-600 hover:text-green-800"
                           title="Save"
                         >
                           <CheckIcon className="h-5 w-5" />
                         </button>
                         <button
                           onClick={handleCancelEdit}
-                          className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                          className="text-gray-600 hover:text-gray-800"
                           title="Cancel"
                         >
                           <XMarkIcon className="h-5 w-5" />
@@ -335,7 +336,7 @@ export default function MemberTable() {
                       <>
                         <button
                           onClick={() => handleEditClick(member)}
-                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                          className="text-blue-600 hover:text-blue-800"
                           title="Edit"
                         >
                           <PencilIcon className="h-5 w-5" />
@@ -344,7 +345,7 @@ export default function MemberTable() {
                         {member.isApproved ? (
                           <button
                             onClick={() => handleApprove(member.id, false)}
-                            className="text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300"
+                            className="text-yellow-600 hover:text-yellow-800"
                             title="Set to Pending"
                           >
                             <XMarkIcon className="h-5 w-5" />
@@ -352,7 +353,7 @@ export default function MemberTable() {
                         ) : (
                           <button
                             onClick={() => handleApprove(member.id, true)}
-                            className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
+                            className="text-green-600 hover:text-green-800"
                             title="Approve"
                           >
                             <CheckIcon className="h-5 w-5" />
@@ -361,7 +362,7 @@ export default function MemberTable() {
                         
                         <button
                           onClick={() => handleDelete(member.id)}
-                          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                          className="text-red-600 hover:text-red-800"
                           title="Delete"
                         >
                           <TrashIcon className="h-5 w-5" />
@@ -373,7 +374,7 @@ export default function MemberTable() {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                <td colSpan="6" className="px-6 py-4 text-center text-sm text-gray-600">
                   No {filter === 'all' ? 'members' : filter + ' members'} found
                 </td>
               </tr>

@@ -102,100 +102,102 @@ export default function Events() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-primary-dark"></div>
+      <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ffc947]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {rsvpSuccess && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            rsvpSuccess.type === 'success' 
-              ? 'bg-green-50 border-l-4 border-green-500 text-green-700 dark:bg-green-900/20 dark:text-green-300' 
-              : 'bg-red-50 border-l-4 border-red-500 text-red-700 dark:bg-red-900/20 dark:text-red-300'
-          }`}>
-            <div className="flex items-start">
-              {rsvpSuccess.type === 'success' ? (
-                <CheckCircleIcon className="h-5 w-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" />
-              ) : (
-                <ExclamationCircleIcon className="h-5 w-5 text-red-500 dark:text-red-400 mr-3 mt-0.5" />
-              )}
-              <div>
-                <p className="font-medium">{rsvpSuccess.type === 'success' ? 'Success!' : 'Error'}</p>
-                <p>{rsvpSuccess.message}</p>
-              </div>
-            </div>
-          </div>
-        )}
+    <div className="min-h-screen bg-[#f0f2f5] font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-[#e8ecef] rounded-2xl shadow-md overflow-hidden p-8 mb-8">
+          <h1 className="text-3xl font-bold text-[#333]">
+            Alumni Events
+          </h1>
+          <p className="mt-2 text-md text-gray-600">
+            Connect with fellow alumni at our upcoming events
+          </p>
+        </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Events</h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Connect with fellow alumni at our upcoming events
-            </p>
-          </div>
-
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="p-6">
             <div className="flex space-x-4 mb-6">
               <button
                 onClick={() => setActiveTab('upcoming')}
-                className={`px-4 py-2 rounded-md transition ${
+                className={`px-4 py-2 rounded-lg transition ${
                   activeTab === 'upcoming'
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    ? 'bg-[#ffc947] text-gray-800'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
                 Upcoming Events
               </button>
               <button
                 onClick={() => setActiveTab('past')}
-                className={`px-4 py-2 rounded-md transition ${
+                className={`px-4 py-2 rounded-lg transition ${
                   activeTab === 'past'
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    ? 'bg-[#ffc947] text-gray-800'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
                 Past Events
               </button>
             </div>
 
+            {rsvpSuccess && (
+              <div className={`mb-6 p-4 rounded-xl ${
+                rsvpSuccess.type === 'success' 
+                  ? 'bg-green-100 border-l-4 border-green-500 text-green-800' 
+                  : 'bg-red-100 border-l-4 border-red-500 text-red-800'
+              }`}>
+                <div className="flex items-start">
+                  {rsvpSuccess.type === 'success' ? (
+                    <CheckCircleIcon className="h-5 w-5 text-green-500 mr-3 mt-0.5" />
+                  ) : (
+                    <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-3 mt-0.5" />
+                  )}
+                  <div>
+                    <p className="font-medium">{rsvpSuccess.type === 'success' ? 'Success!' : 'Error'}</p>
+                    <p>{rsvpSuccess.message}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-6">
               {filteredEvents.length > 0 ? (
                 filteredEvents.map((event) => {
                   const eventDate = event.date?.toDate ? event.date.toDate() : new Date(event.date);
                   return (
-                    <div key={event.id} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-0 last:pb-0">
+                    <div key={event.id} className="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
                       <div className="flex flex-col md:flex-row">
                         <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                          <div className="flex items-center justify-center h-32 w-32 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                          <div className="flex items-center justify-center h-32 w-32 rounded-lg bg-[#e8ecef] text-gray-500">
                             <CalendarIcon className="h-12 w-12" />
                           </div>
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                          <h3 className="text-lg font-medium text-gray-800">
                             {event.title}
                           </h3>
                           <div className="mt-2 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
-                            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <div className="flex items-center text-sm text-gray-600">
                               <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5" />
                               {formatDate(eventDate)}
                             </div>
-                            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <div className="flex items-center text-sm text-gray-600">
                               <ClockIcon className="flex-shrink-0 mr-1.5 h-5 w-5" />
                               {event.time || 'All day'}
                             </div>
-                            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <div className="flex items-center text-sm text-gray-600">
                               <MapPinIcon className="flex-shrink-0 mr-1.5 h-5 w-5" />
                               {event.locationLink ? (
                                 <a 
                                   href={event.locationLink} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-primary dark:text-primary-dark hover:underline"
+                                  className="text-[#0066cc] hover:underline"
                                 >
                                   {event.location || 'Virtual'}
                                 </a>
@@ -204,7 +206,7 @@ export default function Events() {
                               )}
                             </div>
                           </div>
-                          <p className="mt-3 text-gray-600 dark:text-gray-300">
+                          <p className="mt-3 text-gray-700">
                             {event.description}
                           </p>
                           <div className="mt-4">
@@ -212,10 +214,10 @@ export default function Events() {
                               <button
                                 onClick={() => handleRSVP(event.id)}
                                 disabled={rsvpProcessing[event.id] || !isApproved}
-                                className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm ${
+                                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold ${
                                   isApproved 
-                                    ? 'text-white bg-primary hover:bg-primary-dark' 
-                                    : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                                    ? 'text-gray-800 bg-[#ffc947] hover:bg-[#ffc130]' 
+                                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                                 } ${rsvpProcessing[event.id] ? 'opacity-75' : ''}`}
                               >
                                 {rsvpProcessing[event.id] 
@@ -225,7 +227,7 @@ export default function Events() {
                                     : 'Approval Required'}
                               </button>
                             ) : (
-                              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-800">
+                              <button className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold text-gray-800 bg-[#ffc947] hover:bg-[#ffc130]">
                                 View Photos
                               </button>
                             )}
@@ -236,8 +238,8 @@ export default function Events() {
                   );
                 })
               ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-500 dark:text-gray-400">
+                <div className="text-center py-8 bg-white rounded-2xl">
+                  <p className="text-gray-600">
                     {activeTab === 'upcoming'
                       ? 'No upcoming events scheduled. Check back later!'
                       : 'No past events to display.'}
