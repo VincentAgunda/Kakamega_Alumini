@@ -260,7 +260,7 @@ export default function Home() {
                         </div>
                       </div>
                       <Link 
-                        to={`/announcements/${announcement.id}`} 
+                        to="/announcements"
                         className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition"
                       >
                         Read more →
@@ -363,7 +363,7 @@ export default function Home() {
                     
                     <div className="mt-6">
                       <Link 
-                        to={`/events/${event.id}`}
+                        to="/events"
                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 transition"
                       >
                         View Event Details

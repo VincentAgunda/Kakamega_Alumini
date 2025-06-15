@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import PrivateRoute from './components/Auth/PrivateRoute';
@@ -25,7 +26,22 @@ import NotFound from './pages/NotFound';
 import AdminSetup from './pages/AdminSetup';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
-import AddBusiness from './pages/AddBusiness'; // Added
+import AddBusiness from './pages/AddBusiness';
+
+// Scroll to top component with smooth behavior
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Use smooth scrolling behavior
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -34,6 +50,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-grow">
@@ -58,7 +75,7 @@ function App() {
                   <Route path="/announcements" element={<Announcements />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/edit-profile" element={<EditProfile />} />
-                  <Route path="/add-business" element={<AddBusiness />} /> {/* Added */}
+                  <Route path="/add-business" element={<AddBusiness />} />
                 </Route>
                 
                 <Route element={<AdminRoute />}>

@@ -19,64 +19,75 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-700">
-      <div className="container mx-auto px-4 py-4">
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
+      <div className="container mx-auto px-6 py-3 md:py-4">
         <div className="flex justify-between items-center">
           {/* Left Section: Logo + Nav */}
           <div className="flex items-center space-x-8">
-            <Link to="/" className="flex items-center space-x-2">
-              <img src="/logo.svg" alt="Logo" className="h-10" />
-              <span className="text-xl font-bold text-primary dark:text-primary-dark">Kakamega Alumni</span>
+            <Link to="/" className="flex items-center">
+              <img src="/logo.svg" alt="Logo" className="h-6 md:h-7" />
+              {/* Optional: If your logo is strong enough, you might remove the text here for ultimate minimalism */}
+              {/* <span className="text-xl font-bold text-gray-800 dark:text-white ml-2 hidden md:inline">Kakamega Alumni</span> */}
             </Link>
 
-            <nav className="hidden md:flex space-x-6">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `hover:text-secondary dark:hover:text-secondary-dark transition ${
-                      isActive
-                        ? 'text-secondary dark:text-secondary-dark font-medium'
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              ))}
-              {currentUser && (
-                <>
-                  <NavLink to="/announcements" className="text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">
-                    Announcements
-                  </NavLink>
-                  <NavLink to="/directory" className="text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">
-                    Directory
-                  </NavLink>
-                  <NavLink to="/business" className="text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">
-                    Business
-                  </NavLink>
-                </>
-              )}
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex justify-center flex-grow">
+              <ul className="flex space-x-8">
+                {navLinks.map((link) => (
+                  <li key={link.path}>
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 text-sm font-medium ${
+                          isActive
+                            ? 'text-secondary dark:text-secondary-dark font-semibold'
+                            : ''
+                        }`
+                      }
+                    >
+                      {link.name}
+                    </NavLink>
+                  </li>
+                ))}
+                {currentUser && (
+                  <>
+                    <li>
+                      <NavLink to="/announcements" className="text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 text-sm font-medium">
+                        Announcements
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/directory" className="text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 text-sm font-medium">
+                        Directory
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/business" className="text-gray-700 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 text-sm font-medium">
+                        Business
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+              </ul>
             </nav>
           </div>
 
-          {/* Right Section: Theme Toggle + Profile */}
+          {/* Right Section: Theme Toggle + Profile + Mobile Toggle */}
           <div className="flex items-center space-x-4">
             <ThemeToggle />
-            <Menu as="div" className="relative">
-              <Menu.Button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition">
+            <Menu as="div" className="relative z-10">
+              <Menu.Button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition-colors duration-200 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 <FaUserCircle className="text-2xl" />
                 <ChevronDownIcon className="ml-1 w-4 h-4" />
               </Menu.Button>
-              <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg py-1 z-50">
+              <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg py-1">
                 {currentUser ? (
                   <>
                     <Menu.Item>
                       {({ active }) => (
                         <Link
                           to={userData?.role === 'admin' ? '/admin/dashboard' : '/dashboard'}
-                          className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                          className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                         >
                           Dashboard
                         </Link>
@@ -86,7 +97,7 @@ export default function Header() {
                       {({ active }) => (
                         <button
                           onClick={logout}
-                          className={`w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                          className={`w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                         >
                           Logout
                         </button>
@@ -99,7 +110,7 @@ export default function Header() {
                       {({ active }) => (
                         <Link
                           to="/login"
-                          className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                          className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                         >
                           Login
                         </Link>
@@ -109,7 +120,7 @@ export default function Header() {
                       {({ active }) => (
                         <Link
                           to="/register"
-                          className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                          className={`block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 ${active ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
                         >
                           Register
                         </Link>
@@ -121,7 +132,10 @@ export default function Header() {
             </Menu>
 
             {/* Mobile menu toggle */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-1">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            >
               {mobileMenuOpen ? (
                 <XMarkIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
               ) : (
@@ -131,59 +145,61 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 space-y-4">
-            <nav className="flex flex-col space-y-3">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition"
-                >
-                  {link.name}
-                </NavLink>
-              ))}
-              {currentUser && (
+        {/* Mobile Menu - Added animation classes */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            mobileMenuOpen ? 'max-h-screen opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0' // Changed mt-4 to mt-0 when closed
+          }`}
+        >
+          <nav className="flex flex-col space-y-3">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark transition"
+              >
+                {link.name}
+              </NavLink>
+            ))}
+            {currentUser && (
+              <>
+                <NavLink to="/announcements" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Announcements</NavLink>
+                <NavLink to="/directory" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Directory</NavLink>
+                <NavLink to="/business" onClick={() => setMobileMenuOpen(false)} className="text-gray-800 dark:text-gray-300 hover:text-secondary dark:hover:text-secondary-dark">Business</NavLink>
+              </>
+            )}
+          </nav>
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4"> {/* Added mt-4 here to ensure spacing from nav links */}
+            <div className="flex flex-col space-y-3">
+              {currentUser ? (
                 <>
-                  <NavLink to="/announcements" onClick={() => setMobileMenuOpen(false)}>Announcements</NavLink>
-                  <NavLink to="/directory" onClick={() => setMobileMenuOpen(false)}>Directory</NavLink>
-                  <NavLink to="/business" onClick={() => setMobileMenuOpen(false)}>Business</NavLink>
+                  <Link
+                    to={userData?.role === 'admin' ? '/admin/dashboard' : '/dashboard'}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2 px-4 hover:bg-primary-darker dark:hover:bg-primary transition-colors duration-200"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded py-2 px-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2 px-4 hover:bg-primary-darker dark:hover:bg-primary transition-colors duration-200">Login</Link>
+                  <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded py-2 px-4 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">Register</Link>
                 </>
               )}
-            </nav>
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-              <div className="flex flex-col space-y-3">
-                {currentUser ? (
-                  <>
-                    <Link
-                      to={userData?.role === 'admin' ? '/admin/dashboard' : '/dashboard'}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2"
-                    >
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={() => {
-                        logout();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="text-center bg-gray-200 dark:bg-gray-700 rounded py-2"
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center bg-primary dark:bg-primary-dark text-white rounded py-2">Login</Link>
-                    <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-center bg-gray-200 dark:bg-gray-700 rounded py-2">Register</Link>
-                  </>
-                )}
-              </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </header>
   );
