@@ -1,6 +1,42 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function About() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState(''); // New state for phone number
+  const [message, setMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSending(true);
+    setError(null);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID,
+        { name, email, phone, message }, // Include phone in the template parameters
+        import.meta.env.VITE_EMAILJS_USER_ID
+      );
+
+      setSuccess(true);
+      setName('');
+      setEmail('');
+      setPhone(''); // Clear phone number after sending
+      setMessage('');
+    } catch (err) {
+      console.error('Failed to send message:', err);
+      setError('Failed to send your message. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <div className="bg-[#f0f2f5] font-sans">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
@@ -211,40 +247,92 @@ export default function About() {
                   <h3 className="text-lg font-bold text-[#22344C]">
                     Send us a message
                   </h3>
-                  <form className="mt-6 space-y-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-bold text-[#22344C]">Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-bold text-[#22344C]">Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-bold text-[#22344C]">Message</label>
-                      <textarea
-                        id="message"
-                        rows={4}
-                        className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
-                      ></textarea>
-                    </div>
-                    <div>
+                  
+                  {success ? (
+                    <div className="mt-6 p-4 bg-green-100 text-green-800 rounded-xl">
+                      <div className="flex items-center">
+                        <svg className="h-5 w-5 mr-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Your message has been sent successfully!</span>
+                      </div>
                       <button
-                        type="submit"
-                        className="w-full px-4 py-3 bg-[#5E7B80] text-white rounded-xl hover:bg-[#4c6366] transition font-bold"
+                        onClick={() => setSuccess(false)}
+                        className="mt-4 px-4 py-2 bg-[#ffc947] hover:bg-[#ffc130] text-[#333] font-bold rounded-xl transition"
                       >
-                        Send Message
+                        Send Another Message
                       </button>
                     </div>
-                  </form>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+                      {error && (
+                        <div className="p-4 bg-red-100 text-red-800 rounded-xl">
+                          {error}
+                        </div>
+                      )}
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-bold text-[#22344C]">Name</label>
+                        <input
+                          type="text"
+                          id="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-bold text-[#22344C]">Email</label>
+                        <input
+                          type="email"
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
+                          required
+                        />
+                      </div>
+                      {/* New Phone Number Input */}
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-bold text-[#22344C]">Phone Number </label>
+                        <input
+                          type="tel" // Use type="tel" for phone numbers
+                          id="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="message" className="block text-sm font-bold text-[#22344C]">Message</label>
+                        <textarea
+                          id="message"
+                          rows={4}
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-2 border-transparent rounded-xl bg-[#f0f2f5] focus:outline-none focus:ring-2 focus:ring-[#5E7B80] focus:border-transparent transition"
+                          required
+                        ></textarea>
+                      </div>
+                      <div>
+                        <button
+                          type="submit"
+                          disabled={isSending}
+                          className="w-full px-4 py-3 bg-[#5E7B80] text-white rounded-xl hover:bg-[#4c6366] transition font-bold flex justify-center items-center"
+                        >
+                          {isSending ? (
+                            <>
+                              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Sending...
+                            </>
+                          ) : 'Send Message'}
+                        </button>
+                      </div>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>
