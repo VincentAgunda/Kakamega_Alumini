@@ -61,14 +61,14 @@ export default function RsvpManager() {
         );
         const querySnapshot = await getDocs(rsvpsQuery);
         
-        const rsvpsData = await Promise.all(querySnapshot.docs.map(async (doc) => {
-          const rsvpData = doc.data();
+        const rsvpsData = await Promise.all(querySnapshot.docs.map(async (rsvpDoc) => {
+          const rsvpData = rsvpDoc.data();
           const userRef = doc(db, 'users', rsvpData.userId);
           const userSnap = await getDoc(userRef);
           const userData = userSnap.exists() ? userSnap.data() : null;
           
           return {
-            id: doc.id,
+            id: rsvpDoc.id,
             ...rsvpData,
             user: userData ? {
               name: `${userData.firstName} ${userData.lastName}`,
@@ -100,6 +100,7 @@ export default function RsvpManager() {
     }));
 
     try {
+      // FIXED: Removed extra parenthesis
       const eventDoc = await getDoc(doc(db, 'events', rsvp.eventId));
       if (!eventDoc.exists()) {
         throw new Error('Event not found');

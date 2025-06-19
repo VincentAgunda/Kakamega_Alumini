@@ -94,7 +94,8 @@ export default function MemberDirectory() {
   if (loading || loadingMembers) {
     return (
       <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ffc947]"></div>
+        {/* Spinner border color changed to yellow-500 */}
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
       </div>
     );
   }
@@ -102,11 +103,13 @@ export default function MemberDirectory() {
   return (
     <div className="min-h-screen bg-[#f0f2f5] font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-[#e8ecef] rounded-2xl shadow-md overflow-hidden p-8 mb-8">
-          <h1 className="text-3xl font-bold text-[#333]">
+        {/* Hero section background changed to a green gradient */}
+        {/* Text colors changed to white and yellow-400 */}
+        <div className="bg-gradient-to-r from-[#0d3b22] to-[#1a5d38] rounded-2xl shadow-md overflow-hidden p-8 mb-8">
+          <h1 className="text-3xl font-bold text-white">
             Alumni Directory
           </h1>
-          <p className="mt-2 text-md text-gray-600">
+          <p className="mt-2 text-md text-yellow-400">
             Connect with {memberCount} fellow alumni members
           </p>
         </div>
@@ -115,7 +118,7 @@ export default function MemberDirectory() {
           <input
             type="text"
             placeholder="Search alumni by name, profession, year, phone, or email..."
-            className="w-full px-5 py-3 border-2 border-transparent rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#ffc947] focus:border-transparent transition"
+            className="w-full px-5 py-3 border-2 border-transparent rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -128,9 +131,15 @@ export default function MemberDirectory() {
         )}
 
         {filteredMembers.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl shadow-md">
-            <p className="text-gray-500">
+          <div className="text-center py-16 bg-white rounded-2xl shadow-md border border-green-200"> {/* Added border */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="mt-4 text-lg font-bold text-[#0d3b22]"> {/* Changed text color */}
               {searchTerm ? 'No matching alumni found' : 'No alumni members available'}
+            </h3>
+            <p className="mt-2 text-green-700"> {/* Changed text color */}
+              Check back soon to find more alumni.
             </p>
           </div>
         ) : (
@@ -140,7 +149,7 @@ export default function MemberDirectory() {
               return (
                 <div 
                   key={member.id} 
-                  className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                  className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition-shadow duration-300 flex flex-col border border-green-200" // Added green border
                 >
                   <div className="flex items-center mb-4">
                     <div className="flex-shrink-0 mr-4">
@@ -151,15 +160,15 @@ export default function MemberDirectory() {
                           className="h-20 w-20 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="bg-[#e8ecef] border-2 border-dashed rounded-full w-20 h-20 flex items-center justify-center">
-                          <span className="text-2xl font-bold text-gray-500">
+                        <div className="bg-green-50 rounded-full w-20 h-20 flex items-center justify-center"> {/* Changed background */}
+                          <span className="text-2xl font-bold text-[#0d3b22]"> {/* Changed text color */}
                             {member.firstName?.charAt(0)}{member.lastName?.charAt(0)}
                           </span>
                         </div>
                       )}
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800">
+                      <h3 className="text-xl font-bold text-[#0d3b22]"> {/* Changed text color */}
                         {member.firstName} {member.lastName}
                       </h3>
                       <p className="text-md text-gray-500">
@@ -204,7 +213,7 @@ export default function MemberDirectory() {
                       className={`text-sm font-bold px-4 py-2 rounded-lg transition-colors duration-300 ${
                         isConnected 
                           ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                          : 'bg-[#ffc947] text-gray-800 hover:bg-[#ffc130]'
+                          : 'bg-[#2a6e47] text-white hover:bg-[#1a5d38]' // Changed button colors
                       }`}
                     >
                       {isConnected ? 'Connected' : connecting ? 'Connecting...' : 'Connect'}

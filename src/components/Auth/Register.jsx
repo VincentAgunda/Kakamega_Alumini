@@ -101,11 +101,11 @@ export default function Register() {
       if (err.message.includes('email-already-in-use')) {
         errorMessage = (
           <span>
-            This email is already registered. {' '}
+            This email is already registered.{' '}
             <Link 
               to="/login" 
               state={{ email: formData.email }}
-              className="text-primary underline hover:text-primary-dark"
+              className="text-[#2a6e47] underline hover:text-[#0d3b22]" // Green link
             >
               Please login here
             </Link>.
@@ -128,23 +128,27 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    // Changed overall background to match theme
+    <div className="min-h-screen flex items-center justify-center bg-[#f0f2f5] py-12 px-4 sm:px-6 lg:px-8">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl w-full bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+        // Removed dark mode classes, added green border
+        className="max-w-2xl w-full bg-white p-8 rounded-lg shadow-lg border border-green-200"
       >
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
+          {/* Heading color changed */}
+          <h2 className="text-3xl font-extrabold text-[#0d3b22]">
             Create your alumni account
           </h2>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          {/* Text color changed */}
+          <p className="mt-2 text-sm text-gray-700">
             Already have an account?{' '}
             <Link
               to="/login"
               state={{ email: formData.email }}
-              className="font-medium text-primary dark:text-primary-dark hover:text-secondary dark:hover:text-secondary-dark"
+              className="font-medium text-[#2a6e47] hover:text-[#0d3b22]" // Green link
             >
               Sign in
             </Link>
@@ -152,8 +156,9 @@ export default function Register() {
         </div>
         
         {error && (
-          <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-md">
-            <div className="flex items-center text-red-800 dark:text-red-200">
+          // Error message styles adjusted to fit theme, removed dark mode
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-md">
+            <div className="flex items-center text-red-800">
               <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
@@ -166,7 +171,8 @@ export default function Register() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Personal Information */}
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="firstName" className="block text-sm font-medium text-[#0d3b22]">
                 First Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -177,13 +183,15 @@ export default function Register() {
                 minLength="2"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="Enter your first name"
               />
             </div>
             
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="lastName" className="block text-sm font-medium text-[#0d3b22]">
                 Last Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -194,14 +202,16 @@ export default function Register() {
                 minLength="2"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="Enter your last name"
               />
             </div>
             
             {/* Contact Information */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="email" className="block text-sm font-medium text-[#0d3b22]">
                 Email <span className="text-red-500">*</span>
               </label>
               <input
@@ -212,13 +222,15 @@ export default function Register() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="your.email@example.com"
               />
             </div>
             
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="phone" className="block text-sm font-medium text-[#0d3b22]">
                 Phone Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -230,14 +242,16 @@ export default function Register() {
                 title="10-15 digit phone number"
                 value={formData.phone}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="0712345678"
               />
             </div>
             
             {/* School Information */}
             <div>
-              <label htmlFor="indexNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="indexNumber" className="block text-sm font-medium text-[#0d3b22]">
                 Index Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -249,13 +263,15 @@ export default function Register() {
                 title="Alphanumeric characters only"
                 value={formData.indexNumber}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="e.g. 12345"
               />
             </div>
             
             <div>
-              <label htmlFor="yearOfExit" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="yearOfExit" className="block text-sm font-medium text-[#0d3b22]">
                 Year of Exit <span className="text-red-500">*</span>
               </label>
               <input
@@ -267,13 +283,15 @@ export default function Register() {
                 required
                 value={formData.yearOfExit}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="e.g. 2010"
               />
             </div>
             
             <div>
-              <label htmlFor="house" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="house" className="block text-sm font-medium text-[#0d3b22]">
                 House <span className="text-red-500">*</span>
               </label>
               <select
@@ -282,10 +300,11 @@ export default function Register() {
                 required
                 value={formData.house}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
               >
                 <option value="">Select House</option>
-                <option value="Buru">Buru</option>
+                <option value="Chapman">Chapman</option>
                 <option value="Garnet">Garnet</option>
                 <option value="Gold">Gold</option>
                 <option value="Ruby">Ruby</option>
@@ -295,7 +314,8 @@ export default function Register() {
             </div>
             
             <div>
-              <label htmlFor="profession" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="profession" className="block text-sm font-medium text-[#0d3b22]">
                 Profession <span className="text-red-500">*</span>
               </label>
               <input
@@ -306,14 +326,16 @@ export default function Register() {
                 minLength="3"
                 value={formData.profession}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="e.g. Software Engineer"
               />
             </div>
             
             {/* Password Fields */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="password" className="block text-sm font-medium text-[#0d3b22]">
                 Password <span className="text-red-500">*</span>
               </label>
               <input
@@ -324,16 +346,19 @@ export default function Register() {
                 minLength="6"
                 value={formData.password}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="At least 6 characters"
               />
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {/* Text color changed */}
+              <p className="mt-1 text-xs text-gray-600">
                 Minimum 6 characters
               </p>
             </div>
             
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {/* Label color changed */}
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#0d3b22]">
                 Confirm Password <span className="text-red-500">*</span>
               </label>
               <input
@@ -344,7 +369,8 @@ export default function Register() {
                 minLength="6"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                // Input styles changed, removed dark mode
+                className="mt-1 block w-full px-3 py-2 border border-[#2a6e47] rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 bg-[#f0f2f5] transition"
                 placeholder="Re-enter your password"
               />
             </div>
@@ -358,26 +384,28 @@ export default function Register() {
                 name="terms"
                 type="checkbox"
                 required
-                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded dark:border-gray-600"
+                // Checkbox styles changed, removed dark mode
+                className="h-4 w-4 text-[#2a6e47] focus:ring-[#2a6e47] border-gray-300 rounded transition"
               />
             </div>
             <div className="ml-3 text-sm">
-              <label htmlFor="terms" className="font-medium text-gray-700 dark:text-gray-300">
-                I agree to the {' '}
+              {/* Label and link colors changed, removed dark mode */}
+              <label htmlFor="terms" className="font-medium text-gray-700">
+                I agree to the{' '}
                 <Link 
                   to="/terms" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-primary dark:text-primary-dark hover:underline"
+                  className="text-[#2a6e47] hover:underline" // Green link
                 >
                   Terms and Conditions
-                </Link> {' '}
-                and {' '}
+                </Link>{' '}
+                and{' '}
                 <Link 
                   to="/privacy" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-primary dark:text-primary-dark hover:underline"
+                  className="text-[#2a6e47] hover:underline" // Green link
                 >
                   Privacy Policy
                 </Link>
@@ -390,7 +418,8 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              // Button styles changed, removed dark mode, added gradient
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#0d3b22] to-[#1a5d38] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               {loading ? (
                 <>

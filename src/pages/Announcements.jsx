@@ -8,7 +8,6 @@ export default function Announcements() {
     activeTab !== 'all' ? [['type', '==', activeTab]] : []
   );
 
-  // Toggle expanded state for announcements
   const toggleExpand = (id) => {
     setExpanded(prev => ({ 
       ...prev, 
@@ -16,7 +15,6 @@ export default function Announcements() {
     }));
   };
 
-  // Format date
   const formatDate = (timestamp) => {
     if (!timestamp || !timestamp.toDate) return 'Date unknown';
     const date = timestamp.toDate();
@@ -29,23 +27,23 @@ export default function Announcements() {
     });
   };
 
-  // Sort announcements by date (newest first)
   const sortedAnnouncements = [...announcements].sort((a, b) => 
     b.createdAt.toDate() - a.createdAt.toDate()
   );
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ffc947]"></div>
+      <div className="min-h-screen bg-[#f5f8f5] flex items-center justify-center">
+        {/* Changed border color from gold to yellow */}
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center">
-        <div className="max-w-md p-6 bg-white rounded-2xl shadow-md">
+      <div className="min-h-screen bg-[#f5f8f5] flex items-center justify-center">
+        <div className="max-w-md p-6 bg-white rounded-2xl shadow-md border border-green-200">
           <div className="text-red-500 text-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -54,9 +52,10 @@ export default function Announcements() {
             <p className="mt-2 text-gray-600">
               {error.message || 'Please try again later'}
             </p>
+            {/* Changed button color from gold to yellow */}
             <button 
               onClick={() => window.location.reload()}
-              className="mt-4 px-4 py-2 bg-[#ffc947] text-gray-800 rounded-xl hover:bg-[#ffc130] transition font-bold"
+              className="mt-4 px-4 py-2 bg-yellow-400 text-[#0d3b22] rounded-xl hover:bg-yellow-500 transition font-bold"
             >
               Try Again
             </button>
@@ -67,23 +66,25 @@ export default function Announcements() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] font-sans">
+    <div className="min-h-screen bg-[#f5f8f5] font-sans">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-[#e8ecef] rounded-2xl shadow-md overflow-hidden p-8 mb-8">
-          <h1 className="text-3xl font-bold text-[#333]">Announcements</h1>
-          <p className="mt-2 text-md text-gray-600">
+        <div className="bg-gradient-to-r from-[#0d3b22] to-[#1a5d38] rounded-2xl shadow-md overflow-hidden p-8 mb-8">
+          <h1 className="text-3xl font-bold text-white">Announcements</h1>
+          {/* Changed text color from gold to yellow */}
+          <p className="mt-2 text-md text-yellow-400">
             Latest updates from the alumni community
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-md overflow-hidden p-6">
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden p-6 border border-green-200">
           <div className="flex flex-wrap gap-2 mb-6">
+            {/* Changed active tab color from gold to yellow */}
             <button
               onClick={() => setActiveTab('all')}
               className={`px-4 py-2 rounded-lg transition ${
                 activeTab === 'all' 
-                  ? 'bg-[#ffc947] text-gray-800' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-yellow-400 text-[#0d3b22]' 
+                  : 'bg-green-100 text-[#0d3b22] hover:bg-green-200'
               }`}
             >
               All
@@ -92,8 +93,8 @@ export default function Announcements() {
               onClick={() => setActiveTab('jobs')}
               className={`px-4 py-2 rounded-lg transition ${
                 activeTab === 'jobs' 
-                  ? 'bg-[#ffc947] text-gray-800' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-yellow-400 text-[#0d3b22]' 
+                  : 'bg-green-100 text-[#0d3b22] hover:bg-green-200'
               }`}
             >
               Job Opportunities
@@ -102,8 +103,8 @@ export default function Announcements() {
               onClick={() => setActiveTab('events')}
               className={`px-4 py-2 rounded-lg transition ${
                 activeTab === 'events' 
-                  ? 'bg-[#ffc947] text-gray-800' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-yellow-400 text-[#0d3b22]' 
+                  : 'bg-green-100 text-[#0d3b22] hover:bg-green-200'
               }`}
             >
               Events
@@ -112,8 +113,8 @@ export default function Announcements() {
               onClick={() => setActiveTab('general')}
               className={`px-4 py-2 rounded-lg transition ${
                 activeTab === 'general' 
-                  ? 'bg-[#ffc947] text-gray-800' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-yellow-400 text-[#0d3b22]' 
+                  : 'bg-green-100 text-[#0d3b22] hover:bg-green-200'
               }`}
             >
               General
@@ -129,31 +130,31 @@ export default function Announcements() {
                 return (
                   <div 
                     key={announcement.id} 
-                    className="border border-gray-200 rounded-xl p-5 hover:shadow-md transition"
+                    className="border border-green-200 rounded-xl p-5 hover:shadow-md transition"
                   >
                     <div className="flex items-start">
                       <div className="flex-shrink-0 mr-4">
-                        <div className="bg-[#e8ecef] rounded-full w-12 h-12 flex items-center justify-center">
-                          <span className="text-lg font-bold text-gray-700">
+                        <div className="bg-green-50 rounded-full w-12 h-12 flex items-center justify-center">
+                          <span className="text-lg font-bold text-[#0d3b22]">
                             {announcement.authorName?.charAt(0).toUpperCase() || 'A'}
                           </span>
                         </div>
                       </div>
                       <div className="flex-1">
                         <div className="flex flex-wrap items-center justify-between">
-                          <h3 className="text-lg font-medium text-gray-800">
+                          <h3 className="text-lg font-medium text-[#0d3b22]">
                             {announcement.title}
                           </h3>
                           <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                             announcement.type === 'jobs' ? 'bg-green-100 text-green-800' :
-                            announcement.type === 'events' ? 'bg-blue-100 text-blue-800' :
+                            announcement.type === 'events' ? 'bg-amber-100 text-amber-800' :
                             'bg-gray-100 text-gray-800'
                           }`}>
                             {announcement.type === 'jobs' ? 'Job' : 
                             announcement.type === 'events' ? 'Event' : 'General'}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-green-700 mt-1">
                           Posted by {announcement.authorName || 'Admin'} • {formatDate(announcement.createdAt)}
                         </p>
                         <div className="mt-3">
@@ -168,7 +169,7 @@ export default function Announcements() {
                           {shouldTruncate && (
                             <button
                               onClick={() => toggleExpand(announcement.id)}
-                              className="mt-2 text-sm text-[#0066cc] hover:text-[#004d99] transition"
+                              className="mt-2 text-sm text-[#2a6e47] hover:text-[#1a5d38] transition"
                             >
                               {isExpanded ? 'Read less' : 'Read more'}
                             </button>
@@ -179,7 +180,7 @@ export default function Announcements() {
                               href={announcement.link} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="mt-3 inline-flex items-center text-sm text-[#0066cc] hover:text-[#004d99] transition"
+                              className="mt-3 inline-flex items-center text-sm text-[#2a6e47] hover:text-[#1a5d38] transition"
                             >
                               Learn more
                               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -196,12 +197,12 @@ export default function Announcements() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <div className="bg-[#e8ecef] rounded-xl p-8 max-w-md mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="bg-green-50 rounded-xl p-8 max-w-md mx-auto border border-green-200">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-800">No announcements found</h3>
-                <p className="mt-2 text-gray-600">
+                <h3 className="mt-4 text-lg font-medium text-[#0d3b22]">No announcements found</h3>
+                <p className="mt-2 text-green-700">
                   {activeTab === 'all' 
                     ? "There are currently no announcements." 
                     : `There are no ${activeTab} announcements at this time.`}

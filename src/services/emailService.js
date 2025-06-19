@@ -1,10 +1,18 @@
-import { functions } from '../config/firebase';
-import { httpsCallable } from 'firebase/functions';
+import { getAuth } from 'firebase/auth';
 
 export const sendRsvpEmail = async (userEmail, event) => {
   try {
-    const sendEmail = httpsCallable(functions, 'sendRsvpConfirmation');
+    const auth = getAuth();
+    const user = auth.currentUser;
     
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+    
+    // Get user ID token
+    const idToken = await user.getIdToken();
+    
+    // Format event date
     const eventDate = event.date?.toDate 
       ? event.date.toDate().toLocaleDateString('en-US', {
           weekday: 'long',
@@ -14,28 +22,48 @@ export const sendRsvpEmail = async (userEmail, event) => {
         })
       : null;
 
-    const result = await sendEmail({
-      to: userEmail,
-      eventId: event.id,
-      eventName: event.title,
-      eventDate: eventDate,
-      eventTime: event.time || null,
-      eventLocation: event.location || null
+    // Use your actual project ID here
+    const projectId = 'kakamega-high';
+    const url = `https://us-central1-${projectId}.cloudfunctions.net/sendRsvpConfirmation`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${idToken}`
+      },
+      body: JSON.stringify({
+        to: userEmail,
+        eventId: event.id,
+        eventName: event.title,
+        eventDate: eventDate,
+        eventTime: event.time || null,
+        eventLocation: event.location || null
+      })
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Email server error');
+    }
+
+    const result = await response.json();
+    
     return {
       success: true,
-      data: result.data
+      data: result
     };
   } catch (error) {
-    console.error('Error sending RSVP email:', error);
+    console.error('Email error:', {
+      message: error.message,
+      code: error.code
+    });
     
     return {
       success: false,
       error: {
-        code: error.code || 'unknown',
-        message: error.message || 'Failed to send RSVP email',
-        details: error.details || null
+        code: error.code || 'internal',
+        message: error.message || 'Failed to send RSVP email'
       }
     };
   }

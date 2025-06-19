@@ -2,9 +2,11 @@ module.exports = {
   env: {
     es6: true,
     node: true,
+    browser: false,
   },
   parserOptions: {
-    "ecmaVersion": 2018,
+    ecmaVersion: 2022,
+    sourceType: "module",
   },
   extends: [
     "eslint:recommended",
@@ -14,6 +16,12 @@ module.exports = {
     "no-restricted-globals": ["error", "name", "length"],
     "prefer-arrow-callback": "error",
     "quotes": ["error", "double", {"allowTemplateLiterals": true}],
+    "no-undef": "off",
+    "require-jsdoc": "off",
+    "max-len": ["error", {"code": 120}],
+    "camelcase": "off",
+    "no-unused-vars": ["error", {"args": "none"}],
+    "no-console": "off",
   },
   overrides: [
     {
@@ -24,5 +32,12 @@ module.exports = {
       rules: {},
     },
   ],
-  globals: {},
+  globals: {
+    "admin": "readonly",
+    "process": "readonly",
+    "require": "readonly",
+    "module": "readonly",
+    "exports": "readonly",
+    "functions": "readonly",
+  },
 };
